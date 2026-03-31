@@ -1,15 +1,5 @@
 package com.payflow.payment.application.provided;
 
-import com.payflow.payment.application.PaymentService;
-import com.payflow.payment.application.provided.RequestPayment.PaymentRequest;
-import com.payflow.payment.application.provided.RequestPayment.PaymentResponse;
-import com.payflow.payment.application.required.PaymentEventPublisher;
-import com.payflow.payment.application.required.PaymentRepository;
-import com.payflow.payment.application.required.WalletClient;
-import com.payflow.payment.application.required.WalletClient.DeductResult;
-import com.payflow.payment.domain.Payment;
-import com.payflow.payment.domain.PaymentMethod;
-import com.payflow.payment.domain.PaymentStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
