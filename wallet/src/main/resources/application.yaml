@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: wallet-service
+
+server:
+  port: 8082
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
