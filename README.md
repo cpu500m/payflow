@@ -1,4 +1,4 @@
-# PayFlow - 간편결제 플랫폼
+# Podongdong's pay - 간편결제 플랫폼
 
 > MSA + 헥사고날 아키텍처 + DDD 기반 핀테크 플랫폼
 
