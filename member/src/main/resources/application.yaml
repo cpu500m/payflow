@@ -4,3 +4,7 @@ spring:
 
 server:
   port: 8083
+
+service:
+  wallet:
+    url: ${WALLET_SERVICE_URL:http://localhost:8082}
