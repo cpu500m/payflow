@@ -4,11 +4,12 @@ import com.payflow.merchant.domain.Merchant;
 
 import java.util.Optional;
 
-public interface MerchantRepository {
+import org.springframework.data.repository.Repository;
+
+public interface MerchantRepository extends Repository<Merchant, Long> {
 
     Merchant save(Merchant merchant);
 
     Optional<Merchant> findById(Long id);
 
-    boolean existsByBusinessNumber(String businessNumber);
 }

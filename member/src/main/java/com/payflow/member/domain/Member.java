@@ -26,9 +26,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * @description    :
+ * @description    : 회원 Entity
  */
 
+//todo JPA 종속 annotation xml 설정파일로 분리하기
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity

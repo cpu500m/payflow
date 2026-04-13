@@ -1,85 +1,142 @@
 package com.payflow.merchant.domain;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import static com.payflow.merchant.domain.Merchant.*;
+import static com.payflow.merchant.domain.MerchantFixture.*;
+import static com.payflow.merchant.domain.enums.MerchantStatus.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.math.BigDecimal;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
+/**
+ * @description : 가맹점 도메인 테스트
+ */
 class MerchantTest {
 
-    @Test
-    @DisplayName("Merchant.create sets PENDING status and default commission rate 3.5%")
-    void create() {
-        Merchant merchant = Merchant.create("PayCo", "123-45-67890");
+	Merchant merchant;
 
-        assertThat(merchant.getName()).isEqualTo("PayCo");
-        assertThat(merchant.getBusinessNumber()).isEqualTo("123-45-67890");
-        assertThat(merchant.getCommissionRate()).isEqualByComparingTo(new BigDecimal("0.035"));
-        assertThat(merchant.getStatus()).isEqualTo(MerchantStatus.PENDING);
-        assertThat(merchant.getCreatedAt()).isNotNull();
-    }
+	@BeforeEach
+	void setUp() {
+		MerchantRegisterRequest request = createMerchantRegisterRequest();
+		this.merchant = register(request);
+	}
 
-    @Test
-    @DisplayName("approve changes status to ACTIVE")
-    void approve() {
-        Merchant merchant = Merchant.create("PayCo", "123-45-67890");
+	@Test
+	@DisplayName("등록 - 정상")
+	void 등록_정상() {
+		assertEquals(PENDING, merchant.getStatus());
+		assertNotNull(merchant.getRegisteredAt());
+		assertEquals("포동동옷가게", merchant.getBusinessName());
+	}
 
-        merchant.approve();
+	@Test
+	@DisplayName("등록 - 수수료율 유효성검증 실패")
+	void 등록_수수료율_실패() {
+		assertThrows(IllegalArgumentException.class,
+			() -> register(createMerchantRegisterRequest(new BigDecimal("-1"))));
 
-        assertThat(merchant.getStatus()).isEqualTo(MerchantStatus.ACTIVE);
-    }
+		assertThrows(IllegalArgumentException.class,
+			() -> register(createMerchantRegisterRequest(new BigDecimal("101"))));
+	}
 
-    @Test
-    @DisplayName("suspend changes status to SUSPENDED")
-    void suspend() {
-        Merchant merchant = Merchant.create("PayCo", "123-45-67890");
-        merchant.approve();
+	@Test
+	@DisplayName("승인 - 성공")
+	void 승인_성공() {
+		merchant.activate();
 
-        merchant.suspend();
+		assertEquals(ACTIVE, merchant.getStatus());
+		assertNotNull(merchant.getActivatedAt());
+	}
 
-        assertThat(merchant.getStatus()).isEqualTo(MerchantStatus.SUSPENDED);
-    }
+	@Test
+	@DisplayName("승인 - 실패 (PENDING 상태가 아님)")
+	void 승인_실패() {
+		merchant.activate();
 
-    @Test
-    @DisplayName("updateCommissionRate updates the rate")
-    void updateCommissionRate() {
-        Merchant merchant = Merchant.create("PayCo", "123-45-67890");
+		assertThrows(IllegalStateException.class, () -> merchant.activate());
+	}
 
-        merchant.updateCommissionRate(new BigDecimal("0.05"));
+	@Test
+	@DisplayName("정지 - 성공")
+	void 정지_성공() {
+		merchant.activate();
 
-        assertThat(merchant.getCommissionRate()).isEqualByComparingTo(new BigDecimal("0.05"));
-    }
+		merchant.suspend();
 
-    @Test
-    @DisplayName("updateCommissionRate rejects negative rate")
-    void updateCommissionRateRejectsNegative() {
-        Merchant merchant = Merchant.create("PayCo", "123-45-67890");
+		assertEquals(SUSPENDED, merchant.getStatus());
+		assertNotNull(merchant.getSuspendedAt());
+	}
 
-        assertThatThrownBy(() -> merchant.updateCommissionRate(new BigDecimal("-0.01")))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("Commission rate must be between 0 and 1");
-    }
+	@Test
+	@DisplayName("정지 - 실패 (ACTIVE 상태가 아님)")
+	void 정지_실패() {
+		assertThrows(IllegalStateException.class, () -> merchant.suspend());
+	}
 
-    @Test
-    @DisplayName("updateCommissionRate rejects rate above 1")
-    void updateCommissionRateRejectsAboveOne() {
-        Merchant merchant = Merchant.create("PayCo", "123-45-67890");
+	@Test
+	@DisplayName("정지 해제 - 성공")
+	void 정지해제_성공() {
+		merchant.activate();
+		merchant.suspend();
 
-        assertThatThrownBy(() -> merchant.updateCommissionRate(new BigDecimal("1.5")))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("Commission rate must be between 0 and 1");
-    }
+		merchant.resume();
 
-    @Test
-    @DisplayName("CommissionPolicy calculates commission correctly")
-    void commissionPolicyCalculation() {
-        CommissionPolicy policy = new CommissionPolicy(new BigDecimal("0.035"));
+		assertEquals(ACTIVE, merchant.getStatus());
+		assertNull(merchant.getSuspendedAt());
+	}
 
-        BigDecimal commission = policy.calculate(new BigDecimal("100000"));
+	@Test
+	@DisplayName("정지 해제 - 실패 (SUSPENDED 상태가 아님)")
+	void 정지해제_실패() {
+		assertThrows(IllegalStateException.class, () -> merchant.resume());
+	}
 
-        assertThat(commission).isEqualByComparingTo(new BigDecimal("3500"));
-    }
+	@Test
+	@DisplayName("계약 해지 - 성공 (ACTIVE)")
+	void 계약해지_성공_ACTIVE() {
+		merchant.activate();
+
+		merchant.expire();
+
+		assertEquals(EXPIRED, merchant.getStatus());
+	}
+
+	@Test
+	@DisplayName("계약 해지 - 성공 (SUSPENDED)")
+	void 계약해지_성공_SUSPENDED() {
+		merchant.activate();
+		merchant.suspend();
+
+		merchant.expire();
+
+		assertEquals(EXPIRED, merchant.getStatus());
+		assertNull(merchant.getSuspendedAt());
+	}
+
+	@Test
+	@DisplayName("계약 해지 - 실패 (PENDING)")
+	void 계약해지_실패() {
+		assertThrows(IllegalStateException.class, () -> merchant.expire());
+	}
+
+	@Test
+	@DisplayName("활성 상태 확인")
+	void 활성상태_확인() {
+		assertFalse(merchant.isActive());
+
+		merchant.activate();
+
+		assertTrue(merchant.isActive());
+	}
+
+	@Test
+	@DisplayName("수수료 계산")
+	void 수수료_계산() {
+		BigDecimal commission = merchant.getCommissionRate().calculate(new BigDecimal("100000"));
+
+		assertEquals(new BigDecimal("3500"), commission);
+	}
 }

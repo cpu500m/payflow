@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://www.hibernate.org/xsd/orm/mapping"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.hibernate.org/xsd/orm/mapping
+                           https://hibernate.org/xsd/orm/mapping/mapping-3.1.0.xsd">
+    <access>FIELD</access>
+
+    <entity class="com.payflow.merchant.domain.Merchant">
+        <table name="merchant">
+            <unique-constraint name="UK_MERCHANT_BUSINESS_NAME">
+            <column-name>business_name</column-name>
+            </unique-constraint>
+        </table>
+        <attributes>
+            <basic name="name">
+                <column name="name" nullable="false" length="30"/>
+            </basic>
+            <basic name="status">
+                <column name="status" nullable="false" length="50"/>
+                <enumerated>STRING</enumerated>
+            </basic>
+            <basic name="registeredAt">
+                <column name="registered_at" nullable="false" updatable="false"/>
+            </basic>
+            <basic name="activatedAt">
+                <column name="activated_at"/>
+            </basic>
+            <basic name="contractStartDate">
+                <column name="contract_start_date"/>
+            </basic>
+            <basic name="contractEndDate">
+                <column name="contract_end_date"/>
+            </basic>
+            <basic name="suspendedAt">
+                <column name="suspended_at"/>
+            </basic>
+            <embedded name="commissionRate"/>
+        </attributes>
+    </entity>
+
+    <embeddable class="com.payflow.merchant.domain.CommissionRate">
+        <attributes>
+            <basic name="rate">
+                <column name="commission_rate" nullable="false" precision="5" scale="2"/>
+            </basic>
+        </attributes>
+    </embeddable>
+
+</entity-mappings>

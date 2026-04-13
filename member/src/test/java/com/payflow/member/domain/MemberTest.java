@@ -4,15 +4,13 @@ import static com.payflow.member.domain.Member.*;
 import static com.payflow.member.domain.MemberFixture.*;
 import static com.payflow.member.domain.enums.MemberStatus.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
- * @description    :
+ * @description  : 회원 도메인 테스트
  */
 class MemberTest {
 
