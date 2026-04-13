@@ -33,10 +33,10 @@ public class MemberModifyService implements MemberModifier {
 
 	@Override
 	@Transactional
-	public Member register(@Valid MemberRegisterRequest registerRequest) {
-		checkDuplicatedEmail(registerRequest);
+	public Member register(@Valid MemberRegisterRequest request) {
+		checkDuplicatedEmail(request);
 
-		Member member = Member.register(registerRequest, passwordEncoder);
+		Member member = Member.register(request, passwordEncoder);
 
 		memberRepository.save(member);
 

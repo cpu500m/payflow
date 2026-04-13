@@ -12,4 +12,5 @@ public interface MerchantRepository extends Repository<Merchant, Long> {
 
     Optional<Merchant> findById(Long id);
 
+    Optional<Merchant> findByBusinessName(String businessName);
 }

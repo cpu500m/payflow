@@ -55,6 +55,9 @@ subprojects {
         testImplementation("org.springframework.boot:spring-boot-starter-test")
         testImplementation(platform("org.testcontainers:testcontainers-bom:1.21.0"))
         testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+        // 아키텍쳐 검증
+        testImplementation("com.tngtech.archunit:archunit-junit5:1.4.1")
     }
 
     tasks.withType<Test> {
