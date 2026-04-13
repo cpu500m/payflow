@@ -9,6 +9,7 @@ import java.util.List;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.NaturalIdCache;
 
+import com.payflow.common.domain.AbstractEntity;
 import com.payflow.member.domain.enums.MemberStatus;
 
 import jakarta.persistence.AttributeOverride;
@@ -32,10 +33,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @NaturalIdCache
-public class Member {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+public class Member extends AbstractEntity {
 
 	@Embedded
 	@NaturalId

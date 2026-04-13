@@ -8,21 +8,21 @@
 
 ## 기술 스택
 
-| 분류 | 기술 | 버전 |
-|---|---|---|
-| Language | Java, TypeScript | 25 (LTS) |
-| Backend | Spring Boot, Spring Data JPA | 4.0.3 |
+| 분류 | 기술 | 버전                     |
+|---|---|------------------------|
+| Language | Java, TypeScript | 25 (LTS)               |
+| Backend | Spring Boot, Spring Data JPA | 4.0.3                  |
 | Frontend | Vue 3, Pinia, Element Plus, Vite | 3.6 / 3.x / 2.11 / 8.x |
-| Database | MySQL (서비스별 분리) | 9.x |
-| Cache | Redis | 7.x |
-| Messaging | Apache Kafka (KRaft), RabbitMQ | 4.x / 4.x |
-| Batch | Apache Spark | 4.1.1 |
-| Monitoring | ELK (Elasticsearch + Logstash + Kibana) | 9.0.3 |
-| Metrics | Prometheus + Grafana | latest |
-| API Gateway | Nginx | alpine |
-| Testing | JUnit 5, Mockito, Testcontainers, REST Assured | TC 2.x |
-| Build | Gradle Kotlin DSL | 8.14+ |
-| Container | Docker Compose | latest |
+| Database | MySQL (서비스별 분리) | 9.x                    |
+| Cache | Redis | 7.x                    |
+| Messaging | Apache Kafka (KRaft), RabbitMQ | 4.x / 4.x              |
+| Batch | Apache Spark | 4.1.1                  |
+| Monitoring | ELK (Elasticsearch + Logstash + Kibana) | 9.0.3                  |
+| Metrics | Prometheus + Grafana | latest                 |
+| API Gateway | Nginx | alpine                 |
+| Testing | JUnit 5, Mockito, Testcontainers, REST Assured | TC 2.x                 |
+| Build | Gradle Kotlin DSL | 9.4.1                  |
+| Container | Docker Compose | latest                 |
 
 ---
 

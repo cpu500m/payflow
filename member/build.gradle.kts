@@ -1,5 +1,4 @@
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     // security
     implementation("org.springframework.boot:spring-boot-starter-security")
 

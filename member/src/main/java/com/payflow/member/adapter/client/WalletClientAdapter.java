@@ -8,7 +8,7 @@ import com.payflow.member.application.required.WalletClient;
 import lombok.RequiredArgsConstructor;
 
 /**
- * @description    :
+ * @description    : member -> wallet 호출 Client adapter
  */
 @RequiredArgsConstructor
 @Component

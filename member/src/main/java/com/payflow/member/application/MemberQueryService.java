@@ -11,7 +11,7 @@ import com.payflow.member.domain.exception.MemberNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 /**
- * @description    :
+ * @description    : 회원 정보 조회 application service
  */
 @Service
 @RequiredArgsConstructor

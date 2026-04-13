@@ -30,7 +30,15 @@ subprojects {
         }
     }
 
+    // 공통 모듈 참조
+    if (name != "common") {
+        dependencies {
+            implementation(project(":common"))
+        }
+    }
+
     dependencies {
+        
         // Spring Boot 공통
         implementation("org.springframework.boot:spring-boot-starter-web")
         implementation("org.springframework.boot:spring-boot-starter-validation")
@@ -39,6 +47,9 @@ subprojects {
         // Lombok
         compileOnly("org.projectlombok:lombok")
         annotationProcessor("org.projectlombok:lombok")
+
+        //JPA
+        implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 
         // Test
         testImplementation("org.springframework.boot:spring-boot-starter-test")

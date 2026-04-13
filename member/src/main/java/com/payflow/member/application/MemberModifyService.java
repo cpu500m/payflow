@@ -14,10 +14,11 @@ import com.payflow.member.domain.MemberRegisterRequest;
 import com.payflow.member.domain.PasswordEncoder;
 import com.payflow.member.domain.exception.WalletBalanceNotZeroException;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 /**
- * @description    :
+ * @description    : 회원 정보 등록 및 수정 application service
  */
 
 @Service
@@ -32,7 +33,7 @@ public class MemberModifyService implements MemberModifier {
 
 	@Override
 	@Transactional
-	public Member register(MemberRegisterRequest registerRequest) {
+	public Member register(@Valid MemberRegisterRequest registerRequest) {
 		checkDuplicatedEmail(registerRequest);
 
 		Member member = Member.register(registerRequest, passwordEncoder);
@@ -42,6 +43,24 @@ public class MemberModifyService implements MemberModifier {
 		walletClient.createWallet(member.getId());
 
 		return member;
+	}
+
+	@Transactional
+	public void changeNickname(Long memberId, String newNickname) {
+		Member member = memberFinder.find(memberId);
+
+		member.changeNickname(newNickname);
+
+		memberRepository.save(member);
+	}
+
+	@Transactional
+	public void changePassword(Long memberId, String newPassword) {
+		Member member = memberFinder.find(memberId);
+
+		member.changePassword(newPassword, passwordEncoder);
+
+		memberRepository.save(member);
 	}
 
 	@Override

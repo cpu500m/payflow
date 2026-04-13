@@ -6,7 +6,7 @@ import com.payflow.member.domain.MemberRegisterRequest;
 import jakarta.validation.Valid;
 
 /**
- * @description    :
+ * @description    : 회원 정보 등록 및 수정 port
  */
 public interface MemberModifier {
 	Member register(@Valid MemberRegisterRequest registerRequest);

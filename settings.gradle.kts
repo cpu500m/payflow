@@ -1,6 +1,7 @@
 rootProject.name = "payflow"
 
 include(
+    "common",
     "payment",
     "settlement",
     "wallet",
