@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import com.payflow.member.domain.PasswordEncoder;
 
 /**
- * @description    :
+ * @description    : passwordEncoder adapter
  */
 @Component
 public class BcryptPasswordEncoder implements PasswordEncoder {

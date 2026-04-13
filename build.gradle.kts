@@ -30,25 +30,31 @@ subprojects {
         }
     }
 
+    // 공통 모듈 참조
+    if (name != "common") {
+        dependencies {
+            implementation(project(":common"))
+        }
+    }
+
     dependencies {
+        
         // Spring Boot 공통
         implementation("org.springframework.boot:spring-boot-starter-web")
         implementation("org.springframework.boot:spring-boot-starter-validation")
         implementation("org.springframework.boot:spring-boot-starter-actuator")
-        // Logging
-        implementation("net.logstash.logback:logstash-logback-encoder")
-
 
         // Lombok
         compileOnly("org.projectlombok:lombok")
         annotationProcessor("org.projectlombok:lombok")
 
+        //JPA
+        implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 
         // Test
         testImplementation("org.springframework.boot:spring-boot-starter-test")
-        testImplementation(platform("org.testcontainers:testcontainers-bom"))
+        testImplementation(platform("org.testcontainers:testcontainers-bom:1.21.0"))
         testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-
     }
 
     tasks.withType<Test> {
