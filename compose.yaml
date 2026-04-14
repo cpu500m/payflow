@@ -87,7 +87,7 @@ services:
   # Cache
   # ============================================
   redis:
-    image: redis:7-alpine
+    image: redis:8.0.16-alpine
     container_name: payflow-redis
     ports:
       - "6379:6379"

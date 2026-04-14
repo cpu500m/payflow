@@ -15,7 +15,7 @@
 | Backend | Spring Boot, Spring Data JPA | 4.0.3                  |
 | Frontend | Vue 3, Pinia, Element Plus, Vite | 3.6 / 3.x / 2.11 / 8.x |
 | Database | MySQL (서비스별 분리) | 9.x                    |
-| Cache | Redis | 7.x                    |
+| Cache | Redis | 8.0.x                  |
 | Messaging | Apache Kafka (KRaft), RabbitMQ | 4.x / 4.x              |
 | Batch | Apache Spark | 4.1.1                  |
 | Monitoring | ELK (Elasticsearch + Logstash + Kibana) | 9.0.3                  |
