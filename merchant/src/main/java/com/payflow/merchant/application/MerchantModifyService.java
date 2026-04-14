@@ -14,7 +14,7 @@ import com.payflow.merchant.domain.exception.DuplicateBusinessNameException;
 import lombok.RequiredArgsConstructor;
 
 /**
- * @description    :
+ * @description  : 가맹점 등록 & 수정 application service
  */
 
 @Service
@@ -67,6 +67,7 @@ public class MerchantModifyService implements MerchantModifier {
 	}
 
 	@Override
+    @Transactional
 	public Merchant expire(Long merchantId) {
 		Merchant merchant = merchantFinder.find(merchantId);
 

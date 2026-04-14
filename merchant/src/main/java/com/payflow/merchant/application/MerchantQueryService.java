@@ -1,5 +1,6 @@
 package com.payflow.merchant.application;
 
+import com.payflow.merchant.domain.exception.MerchantNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,7 +12,7 @@ import com.payflow.merchant.domain.Merchant;
 import lombok.RequiredArgsConstructor;
 
 /**
- * @description    :
+ * @description : 가맹점 정보 조회 application service
  */
 @Service
 @Transactional(readOnly = true)
@@ -22,11 +23,14 @@ public class MerchantQueryService implements MerchantFinder {
 
 	@Override
 	public Merchant find(Long merchantId) {
-		return null;
+        return merchantRepository.findById(merchantId)
+                .orElseThrow(() -> new MerchantNotFoundException(merchantId));
 	}
 
 	@Override
 	public CommissionRate getCommissionRate(Long merchantId) {
-		return null;
-	}
+        Merchant merchant = find(merchantId);
+
+        return merchant.getCommissionRate();
+    }
 }
