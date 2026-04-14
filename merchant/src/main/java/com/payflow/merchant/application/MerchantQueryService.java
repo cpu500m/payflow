@@ -1,5 +1,6 @@
 package com.payflow.merchant.application;
 
+import com.payflow.merchant.domain.enums.MerchantStatus;
 import com.payflow.merchant.domain.exception.MerchantNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,6 +11,9 @@ import com.payflow.merchant.domain.CommissionRate;
 import com.payflow.merchant.domain.Merchant;
 
 import lombok.RequiredArgsConstructor;
+
+import java.time.LocalDate;
+import java.util.List;
 
 /**
  * @description : 가맹점 정보 조회 application service
@@ -33,4 +37,12 @@ public class MerchantQueryService implements MerchantFinder {
 
         return merchant.getCommissionRate();
     }
+
+	@Override
+	public List<Merchant> findExpirableContracts(LocalDate referenceDate) {
+		return merchantRepository.findByStatusInAndContractEndDateBefore(
+			List.of(MerchantStatus.ACTIVE, MerchantStatus.SUSPENDED),
+			referenceDate
+		);
+	}
 }
