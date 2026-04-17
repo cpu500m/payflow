@@ -3,6 +3,7 @@ package com.payflow.wallet.domain;
 import java.time.LocalDateTime;
 
 import com.payflow.common.domain.AbstractEntity;
+import com.payflow.wallet.domain.dto.WalletTransactionCreateRequest;
 import com.payflow.wallet.domain.enums.TransactionType;
 
 import jakarta.persistence.Entity;

@@ -1,4 +1,4 @@
-package com.payflow.wallet.domain;
+package com.payflow.wallet.domain.dto;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -14,4 +14,7 @@ public record WalletTransactionCreateRequest(
 	@Min(0) Long amount,
 	@Length(max = 100) String description
 ) {
+	public static WalletTransactionCreateRequest of(TransactionType type, WalletBalanceRequest request) {
+		return new WalletTransactionCreateRequest(type, request.amount(), request.description());
+	}
 }

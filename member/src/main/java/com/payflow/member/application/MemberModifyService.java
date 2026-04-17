@@ -22,7 +22,7 @@ import lombok.RequiredArgsConstructor;
  */
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
 @RequiredArgsConstructor
 public class MemberModifyService implements MemberModifier {
 
@@ -32,7 +32,6 @@ public class MemberModifyService implements MemberModifier {
 	private final WalletClient walletClient;
 
 	@Override
-	@Transactional
 	public Member register(@Valid MemberRegisterRequest request) {
 		checkDuplicatedEmail(request);
 
@@ -45,7 +44,6 @@ public class MemberModifyService implements MemberModifier {
 		return member;
 	}
 
-	@Transactional
 	public void changeNickname(Long memberId, String newNickname) {
 		Member member = memberFinder.find(memberId);
 
@@ -54,7 +52,6 @@ public class MemberModifyService implements MemberModifier {
 		memberRepository.save(member);
 	}
 
-	@Transactional
 	public void changePassword(Long memberId, String newPassword) {
 		Member member = memberFinder.find(memberId);
 
@@ -64,7 +61,6 @@ public class MemberModifyService implements MemberModifier {
 	}
 
 	@Override
-	@Transactional
 	public Member deactivate(Long memberId) {
 		Member member = memberFinder.find(memberId);
 
