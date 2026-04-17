@@ -30,9 +30,9 @@ import lombok.NoArgsConstructor;
  */
 
 //todo JPA 종속 annotation xml 설정파일로 분리하기
+@Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Entity
 @NaturalIdCache
 public class Member extends AbstractEntity {
 
