@@ -2,7 +2,10 @@ package com.payflow.merchant.adapter.scheduler;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -12,7 +15,6 @@ import com.payflow.merchant.domain.Merchant;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
 
 @Slf4j
 @Component
@@ -21,28 +23,46 @@ public class MerchantContractExpireScheduler {
 
 	private final MerchantFinder merchantFinder;
 	private final MerchantModifier merchantModifier;
+	private final RedissonClient redissonClient;
 
 	@Scheduled(cron = "0 0 0 * * *")
-	@SchedulerLock(name = "merchantContractExpire", lockAtLeastFor = "PT5M", lockAtMostFor = "PT30M")
 	public void expireContracts() {
-		LocalDate today = LocalDate.now();
-		List<Merchant> merchants = merchantFinder.findExpirableContracts(today);
+		RLock lock = redissonClient.getLock("scheduler:merchant-contract-expire");
 
-		log.info("계약 만료 배치 시작 - 대상: {}건", merchants.size());
+		boolean acquired = false;
+		try {
+			acquired = lock.tryLock(0, 30, TimeUnit.MINUTES);
+			if (!acquired) {
+				log.info("[계약만료배치] 락 획득 실패 - 다른 인스턴스에서 실행 중");
+				return;
+			}
 
-		int successCount = 0;
-		int failCount = 0;
+			LocalDate today = LocalDate.now();
+			List<Merchant> merchants = merchantFinder.findExpirableContracts(today);
+			log.info("[계약만료배치] 시작 - 기준일: {}, 대상: {}건", today, merchants.size());
 
-		for (Merchant merchant : merchants) {
-			try {
-				merchantModifier.expire(merchant.getId());
-				successCount++;
-			} catch (Exception e) {
-				failCount++;
-				log.error("가맹점 만료 처리 실패 - merchantId: {}, reason: {}", merchant.getId(), e.getMessage(), e);
+			int failCount = 0;
+
+			for (Merchant merchant : merchants) {
+				try {
+					merchantModifier.expire(merchant.getId());
+				} catch (Exception e) {
+					failCount++;
+					log.error("[계약만료배치] 만료 처리 실패 - merchantId: {}, reason: {}",
+						merchant.getId(),e.getMessage(), e);
+				}
+			}
+
+			log.info("[계약만료배치] 완료 - 총: {}건, 실패: {}건", merchants.size(), failCount);
+
+		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
+			log.error("[계약만료배치] 인터럽트 발생", e);
+		} finally {
+			if (acquired && lock.isHeldByCurrentThread()) {
+				lock.unlock();
+				log.debug("[계약만료배치] 락 해제 완료");
 			}
 		}
-
-		log.info("계약 만료 배치 완료 - 성공: {}건, 실패: {}건", successCount, failCount);
 	}
 }

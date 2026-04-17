@@ -1,6 +1,9 @@
 spring:
   application:
     name: merchant-service
-
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:localhost}
 server:
   port: 8084

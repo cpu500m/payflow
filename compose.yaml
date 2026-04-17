@@ -4,45 +4,45 @@ services:
   # ============================================
   mysql-payment:
     image: mysql:9.0
-    container_name: payflow-mysql-payment
+    container_name: pdPay-mysql-payment
     ports:
       - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: payflow_payment
+      MYSQL_DATABASE: pdPay_payment
     volumes:
       - mysql-payment-data:/var/lib/mysql
 
   mysql-wallet:
     image: mysql:9.0
-    container_name: payflow-mysql-wallet
+    container_name: pdPay-mysql-wallet
     ports:
       - "3307:3306"
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: payflow_wallet
+      MYSQL_DATABASE: pdPay_wallet
     volumes:
       - mysql-wallet-data:/var/lib/mysql
 
   mysql-settlement:
     image: mysql:9.0
-    container_name: payflow-mysql-settlement
+    container_name: pdPay-mysql-settlement
     ports:
       - "3308:3306"
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: payflow_settlement
+      MYSQL_DATABASE: pdPay_settlement
     volumes:
       - mysql-settlement-data:/var/lib/mysql
 
   mysql-member:
     image: mysql:9.0
-    container_name: payflow-mysql-member
+    container_name: pdPay-mysql-member
     ports:
       - "3309:3306"
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: payflow_member
+      MYSQL_DATABASE: pdPay_member
     volumes:
       - mysql-member-data:/var/lib/mysql
 
@@ -53,7 +53,7 @@ services:
   # Kafka 4.0 - KRaft 모드 (ZooKeeper 제거)
   kafka:
     image: apache/kafka:4.0.0
-    container_name: payflow-kafka
+    container_name: pdPay-kafka
     ports:
       - "9092:9092"
     environment:
@@ -73,7 +73,7 @@ services:
   # RabbitMQ 4.x
   rabbitmq:
     image: rabbitmq:4-management
-    container_name: payflow-rabbitmq
+    container_name: pdPay-rabbitmq
     ports:
       - "5672:5672"
       - "15672:15672"
@@ -84,11 +84,11 @@ services:
       - rabbitmq-data:/var/lib/rabbitmq
 
   # ============================================
-  # Cache
+  # redis
   # ============================================
   redis:
     image: redis:8.0.16-alpine
-    container_name: payflow-redis
+    container_name: pdPay-redis
     ports:
       - "6379:6379"
     command: redis-server --appendonly yes
@@ -100,7 +100,7 @@ services:
   # ============================================
   elasticsearch:
     image: elasticsearch:9.0.3
-    container_name: payflow-elasticsearch
+    container_name: pdPay-elasticsearch
     ports:
       - "9200:9200"
     environment:
@@ -112,7 +112,7 @@ services:
 
   logstash:
     image: logstash:9.0.3
-    container_name: payflow-logstash
+    container_name: pdPay-logstash
     ports:
       - "5044:5044"
     volumes:
@@ -122,7 +122,7 @@ services:
 
   kibana:
     image: kibana:9.0.3
-    container_name: payflow-kibana
+    container_name: pdPay-kibana
     ports:
       - "5601:5601"
     environment:
@@ -135,7 +135,7 @@ services:
   # ============================================
   prometheus:
     image: prom/prometheus:latest
-    container_name: payflow-prometheus
+    container_name: pdPay-prometheus
     ports:
       - "9090:9090"
     volumes:
@@ -143,7 +143,7 @@ services:
 
   grafana:
     image: grafana/grafana:latest
-    container_name: payflow-grafana
+    container_name: pdPay-grafana
     ports:
       - "3000:3000"
     environment:
@@ -156,7 +156,7 @@ services:
   # ============================================
   spark-master:
     image: bitnami/spark:4
-    container_name: payflow-spark
+    container_name: pdPay-spark
     ports:
       - "8180:8080"
       - "7077:7077"
@@ -168,7 +168,7 @@ services:
   # ============================================
   nginx:
     image: nginx:alpine
-    container_name: payflow-nginx
+    container_name: pdPay-nginx
     ports:
       - "80:80"
     volumes:
