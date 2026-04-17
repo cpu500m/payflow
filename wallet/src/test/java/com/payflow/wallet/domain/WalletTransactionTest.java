@@ -7,6 +7,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import com.payflow.wallet.domain.dto.WalletTransactionCreateRequest;
+
 /**
  * @description  : 거래내역 entity test
  */

@@ -5,6 +5,7 @@ import static org.springframework.util.Assert.*;
 import java.time.LocalDateTime;
 
 import com.payflow.common.domain.AbstractEntity;
+import com.payflow.wallet.domain.dto.WalletCreateRequest;
 import com.payflow.wallet.domain.exception.InSufficientBalanceException;
 
 import jakarta.persistence.Entity;
@@ -25,9 +26,9 @@ public class Wallet extends AbstractEntity {
 
 	private LocalDateTime createdAt;
 
-	public static Wallet create(WalletRegisterRequest registerRequest) {
+	public static Wallet create(WalletCreateRequest createRequest) {
 		Wallet wallet = new Wallet();
-		wallet.memberId = registerRequest.memberId();
+		wallet.memberId = createRequest.memberId();
 
 		wallet.createdAt = LocalDateTime.now();
 		wallet.balance = 0L;

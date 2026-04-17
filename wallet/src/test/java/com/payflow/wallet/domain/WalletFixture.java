@@ -1,5 +1,7 @@
 package com.payflow.wallet.domain;
 
+import com.payflow.wallet.domain.dto.WalletCreateRequest;
+import com.payflow.wallet.domain.dto.WalletTransactionCreateRequest;
 import com.payflow.wallet.domain.enums.TransactionType;
 
 /**
@@ -7,8 +9,8 @@ import com.payflow.wallet.domain.enums.TransactionType;
  */
 public class WalletFixture {
 
-	public static WalletRegisterRequest createWalletRegisterRequest() {
-		return new WalletRegisterRequest(1L);
+	public static WalletCreateRequest createWalletRegisterRequest() {
+		return new WalletCreateRequest(1L);
 	}
 
 	public static Wallet createWallet() {
