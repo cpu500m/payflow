@@ -23,7 +23,7 @@ public class WalletQueryService implements WalletFinder {
 	@Override
 	public Wallet findByMemberId(Long memberId) {
 		return walletRepository.findByMemberId(memberId)
-			.orElseThrow(() -> WalletNotFoundException.byMember(memberId));
+			.orElseThrow(() -> new WalletNotFoundException(memberId));
 	}
 
 	@Override

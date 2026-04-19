@@ -1,18 +1,21 @@
 package com.payflow.wallet.domain.exception;
 
+import org.springframework.http.HttpStatus;
+
+import com.payflow.common.domain.PddPayException;
+
 /**
  * @description    :
  */
-public class WalletNotFoundException extends RuntimeException {
-	private WalletNotFoundException(String message) {
-		super(message);
+public class WalletNotFoundException extends PddPayException {
+	private static final String MESSAGE = "해당하는 회원의 지갑이 존재하지 않습니다. memberId : ";
+
+	public WalletNotFoundException(Long memberId) {
+		super(MESSAGE + memberId);
 	}
 
-	public static WalletNotFoundException byWallet(Long walletId) {
-		return new WalletNotFoundException("해당하는 id의 지갑이 존재하지 않습니다. : " + walletId);
-	}
-
-	public static WalletNotFoundException byMember(Long memberId) {
-		return new WalletNotFoundException("해당하는 회원의 지갑이 존재하지 않습니다. memberId : " + memberId);
+	@Override
+	public HttpStatus getStatusCode() {
+		return HttpStatus.NOT_FOUND;
 	}
 }
