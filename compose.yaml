@@ -1,6 +1,6 @@
 services:
   # ============================================
-  # Database (서비스별 분리 - Database per Service)
+  # Database
   # ============================================
   mysql-payment:
     image: mysql:9.0

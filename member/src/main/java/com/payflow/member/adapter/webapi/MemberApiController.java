@@ -27,4 +27,12 @@ public class MemberApiController {
 
 		return MemberRegisterResponse.from(member);
 	}
+/*
+	@PostMapping("/api/members/{memberId}/active")
+	public MemberStatusResponse register(@PathVariable Long memberId) {
+		Member member = memberModifier.isActive(memberId);
+
+		return MemberStatusResponse.from(member);
+	}
+	*/
 }

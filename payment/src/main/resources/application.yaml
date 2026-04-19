@@ -1,9 +1,23 @@
 spring:
   application:
     name: payment-service
+  kafka:
+    bootstrap-servers: localhost:9092
+    topic:
+      environment: local
+      partitions: 6
+      replicas: 1
 
 server:
   port: 8081
+
+service:
+  wallet:
+    url: ${WALLET_SERVICE_URL:http://localhost:8082}
+  member:
+    url: ${MEMBER_SERVICE_URL:http://localhost:8083}
+  merchant:
+    domain: ${MERCHANT_SERVICE_URL:http://localhost:8084}
 
 ---
 
